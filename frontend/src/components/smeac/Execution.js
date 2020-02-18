@@ -10,7 +10,7 @@ const Execution = props => {
       <h3>What Needs Done?</h3>
 
       <div>
-        <ul class="lead">
+        <ul>
           <li>Boat Kit / PPE</li>
           <li>Navigation</li>
           <li>Communication</li>

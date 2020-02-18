@@ -6,12 +6,12 @@ const Confirm = props => {
       <h1>
         <u>Confirm</u>
       </h1>
-      <ul class="lead">
+      <ul>
         <li>LA?</li>
         <li>Roles?</li>
         <li>Comms?</li>
         <li>Kit</li>
-        <li>Q\'s?</li>
+        <li>Q's?</li>
       </ul>
     </div>
   );

@@ -10,7 +10,7 @@ class Administration extends React.Component {
 
         <form>
           <div>
-            <label for="type">Type</label>
+            <label>Type</label>
             <select id="type" name="type">
               <option>Defect</option>
               <option>Info</option>
@@ -19,31 +19,29 @@ class Administration extends React.Component {
           </div>
 
           <div>
-            <label for="description">Description</label>
+            <label>Description</label>
             <textarea
               id="description"
               name="description"
               rows="3"
               cols="100"
               type="text"
-              class="form-control"
               placeholder="Description"
             ></textarea>
           </div>
 
           <div>
-            <label for="reporter">Reporter</label>
+            <label>Reporter</label>
             <input
               id="reporter"
               name="reporter"
               type="text"
-              class="form-control"
               placeholder="Name"
             />
           </div>
 
           <div>
-            <label for="mechanicAware">Mechanic Aware</label>
+            <label>Mechanic Aware</label>
             <select id="mechanicAware" name="mechanicAware">
               <option>No</option>
               <option>Yes</option>
@@ -52,7 +50,7 @@ class Administration extends React.Component {
           </div>
 
           <div>
-            <label for="status">Status</label>
+            <label>Status</label>
             <select id="status" name="status">
               <option>N.S</option>
               <option>I.P</option>

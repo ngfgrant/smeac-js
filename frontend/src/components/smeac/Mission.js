@@ -10,7 +10,7 @@ const Mission = props => {
       <h3>What are we doing?</h3>
 
       <div>
-        <ul class="lead">
+        <ul>
           <li>Search</li>
           <li>Tow</li>
           <li>Casualty Care</li>

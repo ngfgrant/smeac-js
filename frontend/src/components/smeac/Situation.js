@@ -10,7 +10,7 @@ const Situation = props => {
       <h3>What has happened?</h3>
 
       <div>
-        <ul class="lead">
+        <ul>
           <li>What?</li>
           <li>Where?</li>
           <li>When?</li>
