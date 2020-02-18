@@ -2,6 +2,7 @@ import React from "react";
 import Clock from "./Clock";
 import Smeac from "./smeac/Smeac";
 import Weather from "./weather/Weather";
+import Tides from "./tides/Tides";
 
 class App extends React.Component {
   render() {
@@ -21,6 +22,10 @@ class App extends React.Component {
 
         <div>
           <Weather inshoreStation="Rattray Head to Berwick upon Tweed" />
+        </div>
+
+        <div>
+          <Tides tideStation="Fidra" />
         </div>
       </div>
     );
