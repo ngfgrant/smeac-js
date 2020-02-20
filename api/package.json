@@ -12,7 +12,6 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.16.4",
-    "mongodb": "^3.5.3",
     "mongoose": "^5.9.1",
     "morgan": "~1.9.1",
     "request": "^2.88.2",
