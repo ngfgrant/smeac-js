@@ -1,10 +1,11 @@
 import React from "react";
 import api from "../../api/apiService";
+import TimeToTide from "./TimeToTide";
 
 class Tides extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { tides: null, currentDateTime: null };
+    this.state = { tides: null };
   }
 
   tideData = async () => {
@@ -14,7 +15,7 @@ class Tides extends React.Component {
 
   async componentDidMount() {
     const tides = await this.tideData();
-    this.setState({ tides: tides, currentDateTime: new Date().toISOString() });
+    this.setState({ tides: tides });
   }
 
   getNextTide = tide => {
@@ -28,13 +29,6 @@ class Tides extends React.Component {
         return tide;
       }
     }
-  };
-
-  getTimeDifference = time => {
-    let diff = new Date(time).getTime() - new Date().getTime();
-    let diffHrs = Math.floor((diff % 86400000) / 3600000);
-    let diffMins = Math.round(((diff % 86400000) % 3600000) / 60000);
-    return `${diffHrs}:${diffMins}`;
   };
 
   render() {
@@ -51,16 +45,14 @@ class Tides extends React.Component {
 
       result = (
         <div key={nextTide.DateTime}>
-          <p>
-            Next Tide:{new Date(nextTide.DateTime).toLocaleString()}
-            <br />
-            Tide Tide is: {nextTide.EventType}
-            <br />
-            Height of Next Tide:{" "}
-            {Number.parseFloat(nextTide.Height).toPrecision(3)}
-            <br />
-            Time To Next Tide: {this.getTimeDifference(nextTide.DateTime)}
-          </p>
+          Next Tide: {new Date(nextTide.DateTime).toLocaleString()}
+          {" (" + nextTide.EventType + ")"}
+          <br />
+          Tide is: {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
+          <br />
+          Height of Next Tide:{" "}
+          {Number.parseFloat(nextTide.Height).toPrecision(3)} meters
+          <TimeToTide nextTide={nextTide} />
         </div>
       );
     } else {
