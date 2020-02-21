@@ -5,7 +5,7 @@ import TimeToTide from "./TimeToTide";
 class Tides extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { tides: null };
+    this.state = { tides: null, nextTide: null };
   }
 
   tideData = async () => {
@@ -16,9 +16,13 @@ class Tides extends React.Component {
   async componentDidMount() {
     const tides = await this.tideData();
     this.setState({ tides: tides });
+    this.setNextTide();
+    setInterval(() => {
+      this.setNextTide();
+    }, 60000);
   }
 
-  getNextTide = tide => {
+  filterFutureTides = tide => {
     let now = new Date();
     let dateTimeTide = new Date(tide.DateTime);
     if (
@@ -31,28 +35,30 @@ class Tides extends React.Component {
     }
   };
 
-  render() {
-    let result;
-
+  setNextTide = () => {
     if (this.state.tides) {
-      let tides = this.state.tides.filter(tide => this.getNextTide(tide));
-
+      let tides = this.state.tides.filter(tide => this.filterFutureTides(tide));
       tides = tides.sort((a, b) => {
         return new Date(a.DateTime) - new Date(b.DateTime);
       });
+      this.setState({ nextTide: tides[0] });
+    }
+  };
 
-      const nextTide = tides[0];
-
+  render() {
+    let result;
+    if (this.state.tides && this.state.nextTide) {
+      let nextTide = this.state.nextTide;
       result = (
         <div key={nextTide.DateTime}>
           Next Tide: {new Date(nextTide.DateTime).toLocaleString()}
           {" (" + nextTide.EventType + ")"}
           <br />
+          <TimeToTide nextTide={nextTide} />
           Tide is: {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
           <br />
           Height of Next Tide:{" "}
           {Number.parseFloat(nextTide.Height).toPrecision(3)} meters
-          <TimeToTide nextTide={nextTide} />
         </div>
       );
     } else {
@@ -61,7 +67,7 @@ class Tides extends React.Component {
 
     return (
       <div>
-        <h1>Tides</h1>
+        <h1>Tide</h1>
         {result}
       </div>
     );

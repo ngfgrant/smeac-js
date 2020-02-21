@@ -36,8 +36,8 @@ class TimeToTide extends React.Component {
   render() {
     return (
       <div>
-        Time To Next Tide: {this.state.timeToNextTide.hours}:{" "}
-        {this.state.timeToNextTide.minutes}
+        Next Tide: {this.state.timeToNextTide.hours + " hr "}
+        {this.state.timeToNextTide.minutes + " min"}
       </div>
     );
   }
