@@ -21,7 +21,7 @@ class App extends React.Component {
         </div>
 
         <div>
-          <Weather inshoreStation="Rattray Head to Berwick upon Tweed" />
+          <Weather station="Rattray Head to Berwick upon Tweed" />
         </div>
 
         <div>
