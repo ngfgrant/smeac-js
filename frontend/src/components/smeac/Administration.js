@@ -6,7 +6,7 @@ import AdministrationList from "./AdministrationList";
 class Administration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { lastItem: {} };
+    this.state = { lastItem: {}, showForm: false };
   }
 
   formSubmit = async form => {
@@ -20,18 +20,39 @@ class Administration extends React.Component {
 
     try {
       await api.post("administration", params);
-      this.setState({ lastItem: params });
+      this.setState({ lastItem: params, showForm: false });
     } catch (error) {
       console.log(error);
     }
   };
 
   render() {
+    let buttonText = "Show";
+    if (this.state.showForm === true) {
+      buttonText = "Hide";
+    }
     return (
       <div>
         <h1>Administration</h1>
-        <AdministrationForm submitFormHandler={this.formSubmit} />
-        <AdministrationList lastItemAdded={this.state.lastItem} />
+        <button
+          onClick={() => {
+            if (this.state.showForm === false) {
+              this.setState({ showForm: true });
+            } else {
+              this.setState({ showForm: false });
+            }
+          }}
+        >
+          {buttonText}
+        </button>
+        {this.state.showForm ? (
+          <AdministrationForm submitFormHandler={this.formSubmit} />
+        ) : (
+          <div></div>
+        )}
+        <div>
+          <AdministrationList lastItemAdded={this.state.lastItem} />
+        </div>
       </div>
     );
   }
