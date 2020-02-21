@@ -5,22 +5,57 @@ import TimeToTide from "./TimeToTide";
 class Tides extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { tides: null, nextTide: null };
+    this.state = {
+      tides: null,
+      nextTide: null,
+      station: null,
+      stations: null
+    };
   }
 
-  tideData = async () => {
-    const res = await api.get("/tides?station=" + this.props.tideStation);
+  tideData = async stationName => {
+    const res = await api.get("/tides?station=" + stationName);
+    return res.data;
+  };
+
+  stationData = async () => {
+    const res = await api.get("/tides/stations");
     return res.data;
   };
 
   async componentDidMount() {
-    const tides = await this.tideData();
+    const stations = await this.stationData();
+    this.setState({ stations: stations });
+
+    if (!this.state.station && this.props.station) {
+      let station = this.state.stations.filter(
+        station => station.properties.Name === this.props.station
+      )[0];
+      this.setState({ station: station });
+    } else {
+      let station = this.state.stations[0];
+      this.setState({ station: station });
+    }
+
+    const tides = await this.tideData(this.state.station.properties.Name);
     this.setState({ tides: tides });
-    this.setNextTide();
+    const nextTide = this.getNextTide();
+    this.setState({ nextTide });
+
     setInterval(() => {
-      this.setNextTide();
-    }, 60000);
+      this.getNextTide();
+    }, 6000);
   }
+
+  getNextTide = () => {
+    if (this.state.tides && this.state.station) {
+      let tides = this.state.tides.filter(tide => this.filterFutureTides(tide));
+      tides = tides.sort((a, b) => {
+        return new Date(a.DateTime) - new Date(b.DateTime);
+      });
+      return tides[0];
+    }
+  };
 
   filterFutureTides = tide => {
     let now = new Date();
@@ -35,14 +70,30 @@ class Tides extends React.Component {
     }
   };
 
-  setNextTide = () => {
-    if (this.state.tides) {
-      let tides = this.state.tides.filter(tide => this.filterFutureTides(tide));
-      tides = tides.sort((a, b) => {
-        return new Date(a.DateTime) - new Date(b.DateTime);
-      });
-      this.setState({ nextTide: tides[0] });
-    }
+  setStation = async event => {
+    const station = this.state.stations.filter(
+      station => station.properties.Name === event.target.value
+    )[0];
+    this.setState({ station });
+    const tides = await this.tideData(station.properties.Name);
+    this.setState({ tides: tides });
+    const nextTide = this.getNextTide();
+    this.setState({ nextTide });
+  };
+
+  selectStation = () => {
+    return (
+      <select
+        onChange={this.setStation}
+        value={this.state.station.properties.Name}
+      >
+        {this.state.stations.map(station => (
+          <option key={station.properties.Id} value={station.properties.Name}>
+            {station.properties.Name}
+          </option>
+        ))}
+      </select>
+    );
   };
 
   render() {
@@ -50,15 +101,19 @@ class Tides extends React.Component {
     if (this.state.tides && this.state.nextTide) {
       let nextTide = this.state.nextTide;
       result = (
-        <div key={nextTide.DateTime}>
-          Next Tide: {new Date(nextTide.DateTime).toLocaleString()}
-          {" (" + nextTide.EventType + ")"}
-          <br />
-          <TimeToTide nextTide={nextTide} />
-          Tide is: {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
-          <br />
-          Height of Next Tide:{" "}
-          {Number.parseFloat(nextTide.Height).toPrecision(3)} meters
+        <div>
+          <div>{this.selectStation()}</div>
+          <div key={nextTide.DateTime}>
+            Next Tide: {new Date(nextTide.DateTime).toLocaleString()}
+            {" (" + nextTide.EventType + ")"}
+            <br />
+            <TimeToTide nextTide={nextTide} />
+            Tide is:{" "}
+            {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
+            <br />
+            Height of Next Tide:{" "}
+            {Number.parseFloat(nextTide.Height).toPrecision(3)} meters
+          </div>
         </div>
       );
     } else {

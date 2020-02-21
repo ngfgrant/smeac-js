@@ -26,6 +26,10 @@ class TimeToTide extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timerID);
+  }
+
   getTimeDifference = time => {
     let diff = new Date(time.DateTime).getTime() - new Date().getTime();
     let diffHrs = Math.floor((diff % 86400000) / 3600000);

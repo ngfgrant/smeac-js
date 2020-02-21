@@ -25,7 +25,7 @@ class App extends React.Component {
         </div>
 
         <div>
-          <Tides tideStation="Fidra" />
+          <Tides station="Fidra" />
         </div>
       </div>
     );
