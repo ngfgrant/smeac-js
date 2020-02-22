@@ -18,7 +18,6 @@ router.get("/", async function(req, res, next) {
       .type("json")
       .send(data);
   } catch (error) {
-    console.log(error);
     res.status(500).send({ error: error.message });
   }
 });
