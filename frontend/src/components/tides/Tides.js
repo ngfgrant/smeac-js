@@ -44,7 +44,7 @@ class Tides extends React.Component {
 
     setInterval(() => {
       this.getNextTide();
-    }, 6000);
+    }, 1000);
   }
 
   getNextTide = () => {
@@ -53,6 +53,7 @@ class Tides extends React.Component {
       tides = tides.sort((a, b) => {
         return new Date(a.DateTime) - new Date(b.DateTime);
       });
+      this.setState({ nextTide: tides[0] });
       return tides[0];
     }
   };
@@ -96,6 +97,18 @@ class Tides extends React.Component {
     );
   };
 
+  heightOfNextTide = () => {
+    if (this.state.nextTide.Height) {
+      return (
+        <div>
+          {Number.parseFloat(this.state.nextTide.Height).toPrecision(3)} meters
+        </div>
+      );
+    } else {
+      return <div>No tidal height information</div>;
+    }
+  };
+
   render() {
     let result;
     if (this.state.tides && this.state.nextTide) {
@@ -111,13 +124,12 @@ class Tides extends React.Component {
             Tide is:{" "}
             {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
             <br />
-            Height of Next Tide:{" "}
-            {Number.parseFloat(nextTide.Height).toPrecision(3)} meters
+            Height of Next Tide: {this.heightOfNextTide()}
           </div>
         </div>
       );
     } else {
-      result = "No tidal information available.";
+      result = <div>No tidal information available.</div>;
     }
 
     return (
