@@ -3,15 +3,16 @@ import React from "react";
 const Confirm = props => {
   return (
     <div>
-      <h1>
-        <u>Confirm</u>
-      </h1>
+      <div>
+        <h1>Confirm</h1>
+      </div>
       <ul>
-        <li>LA?</li>
+        <li>Launch Authority?</li>
         <li>Roles?</li>
-        <li>Comms?</li>
-        <li>Kit</li>
-        <li>Q's?</li>
+        <li>Communication?</li>
+        <li>Boat Kit + PPE?</li>
+        <li>ETA</li>
+        <li>Any Questions?</li>
       </ul>
     </div>
   );

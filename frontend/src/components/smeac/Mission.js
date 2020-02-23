@@ -3,10 +3,9 @@ import React from "react";
 const Mission = props => {
   return (
     <div>
-      <h1>
-        <u>Mission</u>
-      </h1>
-
+      <div>
+        <h1>Mission</h1>
+      </div>
       <h3>What are we doing?</h3>
 
       <div>

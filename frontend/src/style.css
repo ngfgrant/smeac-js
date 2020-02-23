@@ -1,0 +1,10 @@
+h1{
+color: blue;
+display: inline-block;
+margin-right: 1em
+}
+
+.toggle {
+color: blue;
+text-decoration: underline;
+}

@@ -11,7 +11,8 @@ class Weather extends React.Component {
     super(props);
     this.state = {
       inshoreWeather: null,
-      station: null
+      station: null,
+      showSelectWeather: false
     };
   }
 
@@ -38,45 +39,82 @@ class Weather extends React.Component {
 
   selectStation = () => {
     return (
-      <select onChange={this.setStation} value={this.state.station.h}>
-        {this.state.inshoreWeather.rpt.b.bk.map(station => (
-          <option key={station.id} value={station.h}>
-            {station.h}
-          </option>
-        ))}
-      </select>
+      <div className="ui form">
+        <select onChange={this.setStation} value={this.state.station.h}>
+          {this.state.inshoreWeather.rpt.b.bk.map(station => (
+            <option key={station.id} value={station.h}>
+              {station.h}
+            </option>
+          ))}
+        </select>
+      </div>
     );
   };
 
   render() {
     let result;
+    let toggleWeatherListText = "Show Weather Station List";
+    if (this.state.showSelectWeather === true) {
+      toggleWeatherListText = "Hide Weather Station List";
+    }
 
     if (this.state.inshoreWeather !== null && this.state.station !== null) {
       result = (
         <div>
-          <div>{this.selectStation()}</div>
+          <h1>Weather</h1>
+          <span
+            className="toggle"
+            onClick={() => {
+              if (this.state.showSelectWeather === false) {
+                this.setState({ showSelectWeather: true });
+              } else {
+                this.setState({ showSelectWeather: false });
+              }
+            }}
+          >
+            {toggleWeatherListText}
+          </span>
+          {this.state.showSelectWeather ? (
+            <div>{this.selectStation()}</div>
+          ) : (
+            <div></div>
+          )}
+
           <div key={this.state.station.id}>
             <h3>{this.state.station.h}</h3>
-            <p>
-              Sea: {this.state.station.f.ss}
-              <br />
-              Wind: {this.state.station.f.w}
-              <br />
-              Weather: {this.state.station.f.wt}
-              <br />
-              Visability: {this.state.station.f.v}
-              <br />
-            </p>
+            <div className="ui list">
+              <div className="item">
+                <h4>Issued At:</h4>
+                {new Date(this.state.inshoreWeather.rpt.i.At).toLocaleString()}
+              </div>
+
+              <div className="item">
+                <h4>Sea:</h4> {this.state.station.f.ss}
+              </div>
+              <div className="item">
+                <h4>Wind:</h4> {this.state.station.f.w}
+              </div>
+              <div className="item">
+                <h4>Weather:</h4> {this.state.station.f.wt}
+              </div>
+              <div className="item">
+                <h4>Visability:</h4> {this.state.station.f.v}
+              </div>
+            </div>
           </div>
         </div>
       );
     } else {
-      result = <p>No weather forecast available.</p>;
+      result = (
+        <div>
+          <h1>Weather</h1>
+          <p>No weather forecast available.</p>
+        </div>
+      );
     }
 
     return (
       <div>
-        <h1>Weather</h1>
         <div>{result}</div>
       </div>
     );

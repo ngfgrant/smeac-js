@@ -27,14 +27,15 @@ class Administration extends React.Component {
   };
 
   render() {
-    let buttonText = "Show";
+    let buttonText = "Show Admin Form";
     if (this.state.showForm === true) {
-      buttonText = "Hide";
+      buttonText = "Hide Admin Form";
     }
     return (
       <div>
         <h1>Administration</h1>
-        <button
+        <span
+          className="toggle"
           onClick={() => {
             if (this.state.showForm === false) {
               this.setState({ showForm: true });
@@ -44,9 +45,11 @@ class Administration extends React.Component {
           }}
         >
           {buttonText}
-        </button>
+        </span>
         {this.state.showForm ? (
-          <AdministrationForm submitFormHandler={this.formSubmit} />
+          <div>
+            <AdministrationForm submitFormHandler={this.formSubmit} />
+          </div>
         ) : (
           <div></div>
         )}

@@ -36,36 +36,46 @@ class AdministrationList extends React.Component {
 
   render() {
     let output;
-    if (!this.state.admin) {
-      output = <div>No admin items</div>;
+    if (this.state.admin.length === 0) {
+      output = (
+        <div>
+          <div className="ui info message">No admin items</div>
+        </div>
+      );
     } else {
       output = (
-        <table>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Description</th>
-              <th>Mechanic Aware</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.admin.map(i => (
-              <tr key={i._id}>
-                <td>{i.type}</td>
-                <td>{i.description}</td>
-                <td>{i.mechanicAware}</td>
-                <td>{i.status}</td>
-                <td>
-                  <button onClick={this.removeAdminItem} value={i._id}>
-                    X
-                  </button>
-                </td>
+        <div>
+          <table className="ui striped table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Mechanic Aware</th>
+                <th>Status</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.admin.map(i => (
+                <tr key={i._id}>
+                  <td>{i.type}</td>
+                  <td>{i.description}</td>
+                  <td>{i.mechanicAware}</td>
+                  <td>{i.status}</td>
+                  <td>
+                    <button
+                      className="circular compact negative mini ui button"
+                      onClick={this.removeAdminItem}
+                      value={i._id}
+                    >
+                      X
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
     }
 

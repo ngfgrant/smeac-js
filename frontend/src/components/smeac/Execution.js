@@ -3,10 +3,9 @@ import React from "react";
 const Execution = props => {
   return (
     <div>
-      <h1>
-        <u>Execution</u>
-      </h1>
-
+      <div>
+        <h1>Execution</h1>
+      </div>
       <h3>What Needs Done?</h3>
 
       <div>
@@ -15,7 +14,9 @@ const Execution = props => {
           <li>Navigation</li>
           <li>Communication</li>
           <li>Weather Briefing</li>
-          <li>Launch</li>
+          <li>Launch Site</li>
+          <li>Helmet Camera?</li>
+          <li>Area Check Cards</li>
           <li>Other</li>
         </ul>
       </div>

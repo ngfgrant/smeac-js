@@ -3,10 +3,9 @@ import React from "react";
 const Situation = props => {
   return (
     <div>
-      <h1>
-        <u>Situation</u>
-      </h1>
-
+      <div>
+        <h1>Situation</h1>
+      </div>
       <h3>What has happened?</h3>
 
       <div>
@@ -15,8 +14,9 @@ const Situation = props => {
           <li>Where?</li>
           <li>When?</li>
           <li>How?</li>
-          <li># of Persons?</li>
-          <li>Other Info?</li>
+          <li>Number of Persons?</li>
+          <li>Quality of Information</li>
+          <li>Other Information?</li>
         </ul>
       </div>
     </div>

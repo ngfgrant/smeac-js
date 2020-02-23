@@ -9,7 +9,8 @@ class Tides extends React.Component {
       tides: null,
       nextTide: null,
       station: null,
-      stations: null
+      stations: null,
+      showSelectTide: false
     };
   }
 
@@ -84,16 +85,21 @@ class Tides extends React.Component {
 
   selectStation = () => {
     return (
-      <select
-        onChange={this.setStation}
-        value={this.state.station.properties.Name}
+      <div
+        className="ui form"
+        style={{ display: "inline-block", marginLeft: "10px" }}
       >
-        {this.state.stations.map(station => (
-          <option key={station.properties.Id} value={station.properties.Name}>
-            {station.properties.Name}
-          </option>
-        ))}
-      </select>
+        <select
+          onChange={this.setStation}
+          value={this.state.station.properties.Name}
+        >
+          {this.state.stations.map(station => (
+            <option key={station.properties.Id} value={station.properties.Name}>
+              {station.properties.Name}
+            </option>
+          ))}
+        </select>
+      </div>
     );
   };
 
@@ -111,20 +117,49 @@ class Tides extends React.Component {
 
   render() {
     let result;
+    let toggleTideListText = "Show Tide Station List";
+    if (this.state.showSelectTide === true) {
+      toggleTideListText = "Hide Tide Station List";
+    }
     if (this.state.tides && this.state.nextTide) {
       let nextTide = this.state.nextTide;
       result = (
         <div>
-          <div>{this.selectStation()}</div>
-          <div key={nextTide.DateTime}>
-            Next Tide: {new Date(nextTide.DateTime).toLocaleString()}
-            {" (" + nextTide.EventType + ")"}
-            <br />
-            <TimeToTide nextTide={nextTide} />
-            Tide is:{" "}
-            {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
-            <br />
-            Height of Next Tide: {this.heightOfNextTide()}
+          <h1>Tide</h1>
+          <span
+            className="toggle"
+            onClick={() => {
+              if (this.state.showSelectTide === false) {
+                this.setState({ showSelectTide: true });
+              } else {
+                this.setState({ showSelectTide: false });
+              }
+            }}
+          >
+            {toggleTideListText}
+          </span>
+          {this.state.showSelectTide ? (
+            <div>{this.selectStation()}</div>
+          ) : (
+            <div></div>
+          )}
+
+          <div className="ui list" key={nextTide.DateTime}>
+            <h3>Station: {this.state.station.properties.Name}</h3>
+            <div className="item">
+              <h4>Next Tide:</h4> {new Date(nextTide.DateTime).toLocaleString()}
+              {" (" + nextTide.EventType + ")"}
+            </div>
+            <div className="item">
+              <TimeToTide nextTide={nextTide} />
+            </div>
+            <div className="item">
+              <h4>Tide is:</h4>
+              {nextTide.EventType === "HighWater" ? "Flooding" : "Ebbing"}
+            </div>
+            <div className="item">
+              <h4>Height of Next Tide:</h4> {this.heightOfNextTide()}
+            </div>
           </div>
         </div>
       );
@@ -132,12 +167,7 @@ class Tides extends React.Component {
       result = <div>No tidal information available.</div>;
     }
 
-    return (
-      <div>
-        <h1>Tide</h1>
-        {result}
-      </div>
-    );
+    return <div>{result}</div>;
   }
 }
 
