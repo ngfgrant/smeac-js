@@ -50,8 +50,7 @@ class AdministrationList extends React.Component {
               <tr>
                 <th>Type</th>
                 <th>Description</th>
-                <th>Mechanic Aware</th>
-                <th>Status</th>
+                <th>Reported On</th>
                 <th></th>
               </tr>
             </thead>
@@ -60,8 +59,7 @@ class AdministrationList extends React.Component {
                 <tr key={i._id}>
                   <td>{i.type}</td>
                   <td>{i.description}</td>
-                  <td>{i.mechanicAware}</td>
-                  <td>{i.status}</td>
+                  <td>{i.dateReported}</td>
                   <td>
                     <button
                       className="circular compact negative mini ui button"

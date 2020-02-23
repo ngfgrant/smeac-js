@@ -6,9 +6,7 @@ class AdministrationForm extends React.Component {
     this.state = {
       type: "Defect",
       description: "",
-      reporter: "",
-      mechanicAware: "No",
-      status: "Not Started"
+      reporter: ""
     };
   }
 
@@ -25,9 +23,7 @@ class AdministrationForm extends React.Component {
     this.setState({
       type: "Defect",
       description: "",
-      reporter: "",
-      mechanicAware: "No",
-      status: "Not Started"
+      reporter: ""
     });
   };
 
@@ -73,35 +69,6 @@ class AdministrationForm extends React.Component {
                 placeholder="Name"
                 onChange={this.formChange}
               />
-            </label>
-          </div>
-
-          <div className="field">
-            <label>
-              Mechanic Aware
-              <select
-                name="mechanicAware"
-                value={this.state.mechanicAware}
-                onChange={this.formChange}
-              >
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-                <option value="NA">N/A</option>
-              </select>
-            </label>
-          </div>
-
-          <div className="field">
-            <label>
-              Status
-              <select
-                name="status"
-                value={this.state.status}
-                onChange={this.formChange}
-              >
-                <option value="Not Started">Not Started</option>
-                <option value="In Progress">In Progress</option>
-              </select>
             </label>
           </div>
 

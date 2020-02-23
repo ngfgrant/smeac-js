@@ -14,8 +14,7 @@ class Administration extends React.Component {
       type: form.type,
       description: form.description,
       reporter: form.reporter,
-      mechanicAware: form.mechanicAware,
-      status: form.status
+      dateReported: new Date().toDateString()
     };
 
     try {

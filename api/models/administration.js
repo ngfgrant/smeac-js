@@ -14,11 +14,7 @@ const administrationSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  mechanicAware: {
-    type: String,
-    required: true
-  },
-  status: {
+  dateReported: {
     type: String,
     required: true
   }
