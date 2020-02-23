@@ -16,9 +16,7 @@ class Weather extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const allForecasts = await this.inshoreWeatherForecast();
-    this.setState({ inshoreWeather: allForecasts });
+  updateStation = () => {
     let station;
     if (this.props.station) {
       station = this.state.inshoreWeather.rpt.b.bk.filter(
@@ -28,6 +26,20 @@ class Weather extends React.Component {
       station = this.state.inshoreWeather.rpt.b.bk[0];
     }
     this.setState({ station });
+  };
+
+  async componentDidMount() {
+    const allForecasts = await this.inshoreWeatherForecast();
+    this.setState({ inshoreWeather: allForecasts });
+    this.updateStation();
+    setInterval(async () => {
+      let mins = new Date().getMinutes();
+      if (mins === 0) {
+        const allForecasts = await this.inshoreWeatherForecast();
+        this.setState({ inshoreWeather: allForecasts });
+        this.updateStation();
+      }
+    }, 30000);
   }
 
   setStation = event => {
@@ -85,7 +97,17 @@ class Weather extends React.Component {
             <div className="ui list">
               <div className="item">
                 <h4>Issued At:</h4>
-                {new Date(this.state.inshoreWeather.rpt.i.At).toLocaleString()}
+                {new Date(
+                  this.state.inshoreWeather.rpt.iUTC.dUTC
+                ).toDateString() +
+                  " at " +
+                  this.state.inshoreWeather.rpt.iUTC.tUTC +
+                  ". Valid until " +
+                  new Date(this.state.inshoreWeather.rpt.v.To).toDateString() +
+                  " at " +
+                  new Date(
+                    this.state.inshoreWeather.rpt.v.To
+                  ).toLocaleTimeString()}
               </div>
 
               <div className="item">
@@ -99,6 +121,12 @@ class Weather extends React.Component {
               </div>
               <div className="item">
                 <h4>Visability:</h4> {this.state.station.f.v}
+              </div>
+              <div className="item">
+                <h6>
+                  Source: {this.state.inshoreWeather.rpt.ca}{" "}
+                  {this.state.inshoreWeather.rpt.c}
+                </h6>
               </div>
             </div>
           </div>
